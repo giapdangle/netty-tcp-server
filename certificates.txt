@@ -1,0 +1,27 @@
+Generate private key for server:
+keytool -genkey -alias nts -keysize 2048 -validity 365 -keyalg RSA -dname "CN=nts" -keypass ks_password -storepass ss_password -keystore scert.jks
+
+Export a certificate (public key) from a server keystore:
+keytool -export -alias nts -file server_pub.crt -keystore scert.jks -keypass ks_password -storepass ss_password
+
+Import a signed primary certificate to an existing server keystore:
+keytool -import -trustcacerts -alias ntc -file client_pub.crt -keystore scert.jks -storepass ss_password
+
+Check server private key / trusted certificates:
+keytool -list -keystore scert.jks -storepass ss_password
+
+#################################################
+Generate private key for client:
+keytool -genkey -alias ntc -keysize 2048 -validity 365 -keyalg RSA -dname "CN=ntc" -keypass kc_password -storepass sc_password -keystore ccert.jks
+
+Export a certificate (public key) from a client keystore:
+keytool -export -alias ntc -file client_pub.crt -keystore ccert.jks -keypass kc_password -storepass sc_password
+
+Import a signed primary certificate to an existing client keystore:
+keytool -import -trustcacerts -alias nts -file server_pub.crt -keystore ccert.jks -storepass sc_password
+
+Check server private key / trusted certificates:
+keytool -list -keystore ccert.jks -storepass sc_password
+
+#################################################
+Documentation: http://www.sslshopper.com/article-most-common-java-keytool-keystore-commands.html

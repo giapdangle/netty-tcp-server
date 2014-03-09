@@ -27,8 +27,7 @@ public class HttpDecoder extends MessageToMessageDecoder<HttpMessage> {
                 ByteBuf buffer = new UnpooledByteBufAllocator(false).buffer(request.content().readableBytes());
                 request.content().getBytes(0, buffer);
                 out.add(buffer);
-            } else { //TODO: http://localhost:8080/?json={"userName":"testUser","password":"testPassword"}
-                //TODO: long pooling
+            } else {
                 QueryStringDecoder queryStringDecoder = new QueryStringDecoder(request.getUri());
                 Map<String, List<String>> params = queryStringDecoder.parameters();
                 if (params.containsKey("json")) {
